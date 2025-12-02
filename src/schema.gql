@@ -1,0 +1,47 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AccountType {
+  code: String!
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  type: String!
+}
+
+input CreateAccountInput {
+  code: String!
+  name: String!
+  type: String!
+}
+
+input CreateUserInput {
+  email: String!
+  fullName: String!
+  password: String!
+  role: String = "VIEWER"
+}
+
+type Mutation {
+  createAccount(input: CreateAccountInput!): AccountType!
+
+  """Register a new user"""
+  registerUser(createUserInput: CreateUserInput!): UserType!
+  removeUser(userId: String!): Boolean!
+}
+
+type Query {
+  account(id: String!): AccountType
+  accounts: [AccountType!]!
+  getAllUsers: [UserType!]!
+  getUserByEmail(email: String!): UserType
+  getUserById(id: String!): UserType
+}
+
+type UserType {
+  email: String!
+  fullName: String!
+  id: ID!
+  role: String!
+}

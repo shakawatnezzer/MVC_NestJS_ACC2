@@ -1,37 +1,27 @@
-import { Resolver, Mutation, Args, Query, ResolveField, Parent } from '@nestjs/graphql';
+// Accounting/accounts/accounts.resolver.ts
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { AccountsService } from './accounts.service';
+import { Account } from './account.schema';
 import { CreateAccountInput } from './dto/create-account.input';
-import { AccountType } from './account.type';
 
-
-@Resolver(() => AccountType)
+@Resolver(() => Account)
 export class AccountsResolver {
-  constructor(
-    private readonly accountsService: AccountsService,
-  ) {}
+  constructor(private readonly accountsService: AccountsService) {}
 
-  @Query(() => AccountType, { nullable: true })
-  async account(@Args('id') id: string) {
-    return this.accountsService.findOne(id);
-  }
-
-  @Query(() => [AccountType])
-  async accounts() {
-    return this.accountsService.findAll();
-  }
-
-  @Mutation(() => AccountType)
-  async createAccount(@Args('input') input: CreateAccountInput) {
+  @Mutation(() => Account)
+  async createAccount(
+    @Args('input') input: CreateAccountInput,
+  ): Promise<Account> {
     return this.accountsService.create(input);
   }
 
-  @ResolveField()
-  async isActive(@Parent() account: AccountType) {
-    return account.isActive;
+  @Query(() => [Account], { name: 'accounts' })
+  async findAll(): Promise<Account[]> {
+    return this.accountsService.findAll();
   }
 
-  @ResolveField()
-  async type(@Parent() account: AccountType) {
-    return account.type;
+  @Query(() => Account, { name: 'account' })
+  async findOne(@Args('id') id: string): Promise<Account> {
+    return this.accountsService.findOne(id);
   }
 }

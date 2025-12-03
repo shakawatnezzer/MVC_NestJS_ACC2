@@ -12,6 +12,11 @@ import { User, UserSchema } from './users/user.schema';
 import { AccountsResolver } from './Accounting/accounts/accounts.resolver';
 import { AccountsService } from './Accounting/accounts/accounts.service';
 import { Account, AccountSchema } from './Accounting/accounts/account.schema';
+import { JournalResolver } from './Accounting/journal/journal.resolver';
+import { JournalService } from './Accounting/journal/journal.service';
+import { JournalEntry, JournalEntrySchema } from './Accounting/journal/journal-entry.schema';
+import { LedgerResolver } from './Accounting/reports/ledger.resolver';
+import { LedgerService } from './Accounting/reports/ledger.service';
 
 @Module({
   imports: [
@@ -22,7 +27,10 @@ import { Account, AccountSchema } from './Accounting/accounts/account.schema';
     MongooseModule.forRoot(process.env.MONGO_URI!),
     
     
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema },{ name: Account.name, schema: AccountSchema },]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema },{ name: Account.name, schema: AccountSchema },
+      { name: JournalEntry.name, schema: JournalEntrySchema },
+
+    ]),
 
     
     
@@ -36,6 +44,15 @@ import { Account, AccountSchema } from './Accounting/accounts/account.schema';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, UsersResolver, UsersService, AccountsResolver, AccountsService],
+  providers: [
+    AppService, 
+    UsersResolver,
+    UsersService,
+    AccountsResolver, 
+    AccountsService, 
+    JournalResolver,
+    JournalService,
+    LedgerResolver,
+    LedgerService],
 })
 export class AppModule {}

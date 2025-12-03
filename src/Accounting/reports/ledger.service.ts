@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JournalEntry, JournalEntryDocument } from '../journal/journal-entry.schema';
-import { Account, AccountDocument,  } from '../accounts/account.schema';
+import { Account, AccountDocument, AccountType,  } from '../accounts/account.schema';
 import { LedgerFilterInput } from './dto/ledger-filter.input';
 import { LedgerEntryOutput } from './dto/ledger-entry.output';
 import { BalanceSheetOutput } from './dto/balance-sheet.output';
